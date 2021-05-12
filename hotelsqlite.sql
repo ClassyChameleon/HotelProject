@@ -1,5 +1,5 @@
 /*
-Regarding Room_ID
+Regarding ROOM.Room_ID
 (Hotel ID number.Room type number concatted with the room ID number of that type in that hotel)
 E.g. (2.34) is the fourth standard triple room in hotel number 2.
 (2.414) is the 14th superior room in hotel number 2.
@@ -19,11 +19,20 @@ Optimally this table would be updated periodically:
 - Start_Date moved up to today's date
 - Entries removed after End_Date has passed
 */
+/*
+Regarding PROFILE.role
+0: Owner
+1: Customer/standard user {may book hotel rooms}
+2: Hotel owner/manager {may manage their hotels or add new hotels and rooms}
+3: Staff/Moderator {yet to be decided how this role works}
+*/
 CREATE TABLE HOTEL
 	( Name VARCHAR(100) NOT NULL
 	, Location VARCHAR(100) NOT NULL
 	, Rating DECIMAL(3,2)
+	, Owner VARCHAR(25) NOT NULL
 	, PRIMARY KEY(Name,Location)
+	, FOREIGN KEY(Owner) REFERENCES PROFILE(Username)
 	);
 
 CREATE TABLE ROOM
@@ -52,14 +61,25 @@ CREATE TABLE BOOKING
 	, Exit_Date DATE NOT NULL
 	, User VARCHAR(100) NOT NULL
 	, Price DECIMAL(10,2) -- Null if no payment is required
+	, PRIMARY KEY(Room_ID, Entry_Date)
 	, FOREIGN KEY(Hotel_Name, Hotel_Location) REFERENCES HOTEL(Name, Location)
+	);
+CREATE TABLE PROFILE
+	( Username VARCHAR(25) NOT NULL
+	, Password VARCHAR(25) NOT NULL 
+	, Role TINYINT NOT NULL
+	, PRIMARY KEY(Username)
 	);
 
 PRAGMA foreign_keys=ON;
 
-INSERT INTO HOTEL VALUES('Hotel Cabin', 'Reykjavik', 7);
-INSERT INTO HOTEL VALUES('Hotel Klettur', 'Reykjavik', 8.4);
-INSERT INTO HOTEL VALUES('Hotel Ork', 'Hveragerdi', 8.8);
+INSERT INTO PROFILE VALUES('gvg8', '123', 0);
+INSERT INTO PROFILE VALUES('JonRagnarsson', 'Password', 2);
+INSERT INTO PROFILE VALUES('karlhermann', 'kalli', 1);
+
+INSERT INTO HOTEL VALUES('Hotel Cabin', 'Reykjavik', 7, 'JonRagnarsson');
+INSERT INTO HOTEL VALUES('Hotel Klettur', 'Reykjavik', 8.4, 'JonRagnarsson');
+INSERT INTO HOTEL VALUES('Hotel Ork', 'Hveragerdi', 8.8, 'JonRagnarsson');
 
 INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 111, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 112, 'Standard Single');
@@ -69,3 +89,4 @@ INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 22, 'Standard Twin');
 INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 311, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 312, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 313, 'Standard Single');
+
