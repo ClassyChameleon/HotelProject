@@ -1,9 +1,14 @@
 package application;
 
+import java.io.IOException;
 import java.sql.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class LoginController {
 	@FXML
@@ -30,6 +35,9 @@ public class LoginController {
 				System.out.println("UserName = " + rs.getString("Username"));
 				System.out.println("Password = " + rs.getString("Password"));
 				System.out.println("Role = " + rs.getInt("Role"));
+				if (rs.getInt("Role") == 1) {
+					OpenHotelBooking(rs.getString("Username"), rs.getString("Password"));
+				}
 			} else {
 				System.out.println("Sorry, no profile found");
 			}
@@ -52,37 +60,19 @@ public class LoginController {
 			}
 		}
 	}
-	public void buttonPressed() throws Exception {
-		Class.forName("org.sqlite.JDBC");
-		Connection conn = null;
-		try
-		{
-			conn = DriverManager.getConnection("jdbc:sqlite:hotel.db");
-			Statement statement = conn.createStatement();
+	
+	private void OpenHotelBooking(String username, String password) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelBooking.fxml"));
+		
+		Stage stage = new Stage(StageStyle.DECORATED);
+		try {
+			stage.setScene(new Scene(loader.load()));
+			HotelBookingController controller = loader.getController();
+			controller.PassUserData(username, password);
 			
-			ResultSet rs = statement.executeQuery("select * from Hotel");
-			while(rs.next())
-			{
-				System.out.println("hotelName = " + rs.getString("Name"));
-				System.out.println("hotelLocation = " + rs.getString("Location"));
-			}
-			rs.close();
-		}
-		catch(SQLException e)
-		{
-			System.err.println(e.getMessage());
-		}
-		finally
-		{
-			try
-			{
-				if (conn != null)
-					conn.close();
-			}
-			catch(SQLException e)
-			{
-				System.err.println(e);
-			}
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
