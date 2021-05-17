@@ -20,7 +20,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="LogOutMenuItem" mnemonicParsing="false" text="Log out" />
+              <MenuItem fx:id="LogOutMenuItem" mnemonicParsing="false" onAction="#LogOutMenuItemPressed" text="Log out" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
