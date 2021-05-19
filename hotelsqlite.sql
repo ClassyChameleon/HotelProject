@@ -83,6 +83,7 @@ INSERT INTO HOTEL VALUES('Hotel Ork', 'Hveragerdi', 8.8, 'JonRagnarsson');
 
 INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 111, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 112, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 131, 'Standard Triple');
 INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 14, 'Superior');
 INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 21, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 22, 'Standard Twin');

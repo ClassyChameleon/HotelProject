@@ -25,12 +25,12 @@
          <children>
             <Label text="Username" />
             <Label text="Password" GridPane.rowIndex="1" />
-            <TextField fx:id="UsernameTextField" GridPane.columnIndex="1">
+            <TextField fx:id="UsernameTextField" onAction="#UsernameEnterPressed" text="karlhermann" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="PasswordTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="PasswordTextField" onAction="#LoginButtonPressed" text="kalli" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </GridPane.margin>

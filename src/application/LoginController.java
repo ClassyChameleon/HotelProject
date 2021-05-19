@@ -1,7 +1,6 @@
 package application;
 
 import java.io.IOException;
-import java.sql.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,6 +30,11 @@ public class LoginController {
 		primaryStage = primary;
 	}
 	
+	//If you have UsernameTextField selected and press enter, PasswordTextField will be focused.
+	public void UsernameEnterPressed() {
+		PasswordTextField.requestFocus();
+	}
+	
 	//After logging out, this returns the login info into the text input.
 	public void ReturnUserData(String username, String password) {
 		UsernameTextField.setText(username);
@@ -47,6 +51,7 @@ public class LoginController {
 			HotelBookingController controller = loader.getController();
 			controller.PassUserData(username, password);
 			controller.ClearMenuItemPressed();
+			//controller.PassPrimaryStage(stage);
 			
 			stage.show();
 			
@@ -77,4 +82,5 @@ public class LoginController {
 		}
 	}
 	
+
 }

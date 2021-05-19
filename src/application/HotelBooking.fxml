@@ -9,6 +9,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -39,52 +40,65 @@
       </MenuBar>
    </top>
    <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="NEVER" maxWidth="70.40002822875977" minWidth="10.0" prefWidth="66.40002822875977" />
-          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="195.20001220703125" />
-            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="68.79998779296875" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Hotel">
-               <GridPane.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Room type" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Entry date" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Exit date" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </GridPane.margin>
-            </Label>
-            <Button fx:id="Buttonbutton" mnemonicParsing="false" onAction="#ButtonbuttonPressed" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <DatePicker fx:id="EntryDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <DatePicker fx:id="ExitDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ChoiceBox fx:id="HotelChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
-            <ChoiceBox fx:id="RoomTypeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
+      <SplitPane dividerPositions="0.44966442953020136" orientation="VERTICAL" prefHeight="300.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <GridPane alignment="CENTER" maxHeight="121.6" maxWidth="-Infinity">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="NEVER" maxWidth="70.40002822875977" minWidth="10.0" prefWidth="66.40002822875977" />
+                      <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                        <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="68.79998779296875" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Hotel">
+                           <GridPane.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Room type" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Entry date" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Exit date" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Button fx:id="SearchButton" mnemonicParsing="false" onAction="#SearchButtonPressed" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="EntryDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <DatePicker fx:id="ExitDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ChoiceBox fx:id="HotelChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
+                        <ChoiceBox fx:id="RoomTypeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </padding>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                     <content>
+                        <AnchorPane fx:id="ResultAnchorPane" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
    </center>
-   <bottom>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-        </content>
-      </ScrollPane>
-   </bottom>
 </BorderPane>
