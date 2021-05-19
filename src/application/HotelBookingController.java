@@ -1,6 +1,9 @@
 package application;
 
 import java.io.IOException;
+import java.time.LocalDate;
+
+import com.sun.javafx.scene.control.behavior.DatePickerBehavior;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -97,6 +101,15 @@ public class HotelBookingController {
 			Label EntryDate = new Label("Check-in Date");
 			ResultGridPane.add(EntryDate, 1, 0);
 			DatePicker CheckInDatePicker = new DatePicker();
+			CheckInDatePicker.setDayCellFactory(param -> new DateCell() {
+		        @Override
+		        public void updateItem(LocalDate date, boolean empty) {
+		            super.updateItem(date, empty);
+		            setDisable(empty || date.compareTo(LocalDate.now()) < 0 );
+		        }
+		    });
+			CheckInDatePicker.getEditor().setDisable(true);
+			CheckInDatePicker.getEditor().setOpacity(1);
 			ResultGridPane.add(CheckInDatePicker, 1, 1);
 			Label ExitDate = new Label("Check-out Date");
 			ResultGridPane.add(ExitDate, 2, 0);

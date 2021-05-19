@@ -119,4 +119,9 @@ public class DBManager {
 		return hotels;
 	}
 	
+	public ObservableList<Room> FindRoomsBasedOnSearch(String hotel, String roomType, String entrydate, String exitdate) {
+		return null;
+	}
+	
+	
 }
