@@ -51,6 +51,7 @@ public class LoginController {
 			HotelBookingController controller = loader.getController();
 			controller.PassUserData(username, password);
 			controller.ClearMenuItemPressed();
+			controller.ConfigureLocalDatePicker();
 			//controller.PassPrimaryStage(stage);
 			
 			stage.show();

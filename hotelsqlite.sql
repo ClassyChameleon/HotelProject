@@ -9,6 +9,8 @@ Room types:
 -3:Standard Triple
 -4:Superior Room
 We have 5 more room types to work with if necessary.
+Of course in real life this would be just the room number,
+I thought this system would be cool to use as a mock database.
 */
 /*
 Regarding ROOM_PRICE
@@ -44,7 +46,7 @@ CREATE TABLE ROOM
 	, FOREIGN KEY(Hotel_Name, Hotel_Location) REFERENCES HOTEL(Name, Location)
 	);
 CREATE TABLE ROOM_PRICE
-	( Room_ID INT NOT NULL
+	( Room_ID DECIMAL(3,5) NOT NULL
 	, Start_Date DATE NOT NULL 
 	, End_Date DATE
 	, Price DECIMAL(10,2) NOT NULL
@@ -56,7 +58,7 @@ CREATE TABLE ROOM_PRICE
 CREATE TABLE BOOKING
 	( Hotel_Name VARCHAR(100) NOT NULL
 	, Hotel_Location VARCHAR(100) NOT NULL
-	, Room_ID INT NOT NULL
+	, Room_ID DECIMAL(3,5) NOT NULL
 	, Entry_Date DATE NOT NULL
 	, Exit_Date DATE NOT NULL
 	, User VARCHAR(100) NOT NULL
@@ -90,4 +92,6 @@ INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 22, 'Standard Twin');
 INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 311, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 312, 'Standard Single');
 INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 313, 'Standard Single');
+
+INSERT INTO BOOKING VALUES('Hotel Cabin', 'Reykjavik', 112, '2021-01-01', '2030-12-31'
 

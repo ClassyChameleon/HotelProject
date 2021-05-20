@@ -1,6 +1,8 @@
 package application;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,8 +57,8 @@ public class DBManager {
 		{
 			conn = DriverManager.getConnection("jdbc:sqlite:hotel.db");
 			
-			PreparedStatement loginQuery = conn.prepareStatement("select distinct Name from HOTEL order by Name ASC");
-			ResultSet rs = loginQuery.executeQuery();
+			PreparedStatement query = conn.prepareStatement("select distinct Name from HOTEL order by Name ASC");
+			ResultSet rs = query.executeQuery();
 			while (rs.next())
 			{
 				hotels.add(rs.getString("Name"));
@@ -91,8 +93,8 @@ public class DBManager {
 		{
 			conn = DriverManager.getConnection("jdbc:sqlite:hotel.db");
 			
-			PreparedStatement loginQuery = conn.prepareStatement("select distinct Room_Type from ROOM order by Room_Type ASC");
-			ResultSet rs = loginQuery.executeQuery();
+			PreparedStatement query = conn.prepareStatement("select distinct Room_Type from ROOM order by Room_Type ASC");
+			ResultSet rs = query.executeQuery();
 			while (rs.next())
 			{
 				hotels.add(rs.getString("Room_Type"));
@@ -119,8 +121,69 @@ public class DBManager {
 		return hotels;
 	}
 	
-	public ObservableList<Room> FindRoomsBasedOnSearch(String hotel, String roomType, String entrydate, String exitdate) {
-		return null;
+	public Queue<Room> FindRoomsBasedOnSearch(String hotel, String roomType, String entrydate, String exitdate) throws ClassNotFoundException {
+		Queue<Room> RoomList = new LinkedList<Room>();
+		Class.forName("org.sqlite.JDBC");
+		Connection conn = null;
+		try
+		{
+			conn = DriverManager.getConnection("jdbc:sqlite:hotel.db");
+			
+			String query = "select * from room";
+			if (!(hotel.isBlank() && roomType.isBlank() && entrydate.isBlank() && exitdate.isBlank())) {
+				query.concat(" where");
+				if (!hotel.isBlank()) query.concat(" hotel_name = " + hotel + " AND");
+				if (!roomType.isBlank()) query.concat(" room_type = " + roomType + " AND");
+				if (!entrydate.isBlank()) query.concat(" NOT EXISTS ("
+						+ "SELECT * FROM booking WHERE"
+						+ " booking.Room_ID = room.Room_ID AND"
+						+ " Entry_Date <= " + entrydate + " AND"
+						+ " " + entrydate + " < Exit_Date) AND");
+				if (!exitdate.isBlank()) query.concat(" NOT EXISTS ("
+						+ "SELECT * FROM booking WHERE"
+						+ " booking.Room_ID = room.Room_ID AND"
+						+ " Entry_Date < " + exitdate + " AND"
+						+ " " + exitdate + " <= Exit_Date) AND");
+				query.substring(0, query.length()-4);
+			}
+			
+			PreparedStatement roomSearchQuery = conn.prepareStatement(query);
+			ResultSet rs = roomSearchQuery.executeQuery();
+			while (rs.next())
+			{
+				Room roomItem = new Room(
+						rs.getDouble("Room_ID"),
+						rs.getString("Hotel_Name"),
+						rs.getString("Room_Type"));
+				query = "SELECT * FROM booking WHERE Room_ID = " + roomItem.getRoomID();
+				PreparedStatement bookingSearchQuery = conn.prepareStatement(query);
+				ResultSet bookingResults = bookingSearchQuery.executeQuery();
+				while (bookingResults.next()) {
+					roomItem.addBooking(bookingResults.getDate("Entry_Date").toLocalDate(), bookingResults.getDate("Exit_Date").toLocalDate());
+				}
+				bookingResults.close();
+				RoomList.add(roomItem);
+			}
+			rs.close();
+		}
+		//TODO: make user-friendly error handlers after every catch.
+		catch(SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		finally
+		{
+			try
+			{
+				if (conn != null)
+					conn.close();
+			}
+			catch(SQLException e)
+			{
+				System.err.println(e);
+			}
+		}
+		return RoomList;
 	}
 	
 	
