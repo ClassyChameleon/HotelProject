@@ -130,17 +130,9 @@ public class DBManager {
 		{
 			conn = DriverManager.getConnection("jdbc:sqlite:hotel.db");
 
-			System.out.println(hotel);
-			System.out.println(roomType);
-			System.out.println(hotel.equals("Select a hotel"));
-			System.out.println(roomType.equals("Select a room type"));
-			System.out.println(entrydate.isBlank());
-			System.out.println(exitdate.isBlank());
-			System.out.println(!(hotel.equals("Select a hotel") && roomType.equals("Select a room type") && entrydate.isBlank() && exitdate.isBlank()));
 			String query = "select * from room";
 			if (!(hotel.equals("Select a hotel") && roomType.equals("Select a room type") && entrydate.isBlank() && exitdate.isBlank())) {
 				query = query.concat(" where");
-				System.out.println(query);
 				if (!hotel.equals("Select a hotel")) query = query.concat(" hotel_name = '" + hotel + "' AND");
 				if (!roomType.equals("Select a room type")) query = query.concat(" room_type = '" + roomType + "' AND");
 				if (!entrydate.isBlank()) query = query.concat(" NOT EXISTS ("
@@ -155,7 +147,6 @@ public class DBManager {
 						+ " '" + exitdate + "' <= Exit_Date) AND");
 				query = query.substring(0, query.length()-4);
 			}
-			System.out.println(query);
 			PreparedStatement roomSearchQuery = conn.prepareStatement(query);
 			ResultSet rs = roomSearchQuery.executeQuery();
 			while (rs.next())
