@@ -78,20 +78,22 @@ PRAGMA foreign_keys=ON;
 INSERT INTO PROFILE VALUES('gvg8', '123', 0);
 INSERT INTO PROFILE VALUES('JonRagnarsson', 'Password', 2);
 INSERT INTO PROFILE VALUES('karlhermann', 'kalli', 1);
+INSERT INTO PROFILE VALUES('maggi', 'gammi', 1);
 
 INSERT INTO HOTEL VALUES('Hotel Cabin', 'Reykjavik', 7, 'JonRagnarsson');
 INSERT INTO HOTEL VALUES('Hotel Klettur', 'Reykjavik', 8.4, 'JonRagnarsson');
 INSERT INTO HOTEL VALUES('Hotel Ork', 'Hveragerdi', 8.8, 'JonRagnarsson');
 
-INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 111, 'Standard Single');
-INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 112, 'Standard Single');
-INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 131, 'Standard Triple');
-INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 14, 'Superior');
-INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 21, 'Standard Single');
-INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 22, 'Standard Twin');
-INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 311, 'Standard Single');
-INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 312, 'Standard Single');
-INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 313, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 1.11, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 1.12, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 1.31, 'Standard Triple');
+INSERT INTO ROOM VALUES('Hotel Cabin', 'Reykjavik', 1.41, 'Superior');
+INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 2.11, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Klettur', 'Reykjavik', 2.21, 'Standard Twin');
+INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 3.11, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 3.12, 'Standard Single');
+INSERT INTO ROOM VALUES('Hotel Ork', 'Hveragerdi', 3.13, 'Standard Single');
 
-INSERT INTO BOOKING VALUES('Hotel Cabin', 'Reykjavik', 112, '2021-01-01', '2030-12-31'
+INSERT INTO BOOKING VALUES('Hotel Cabin', 'Reykjavik', 1.12, '2021-01-01', '2030-12-31', 'maggi', NULL);
 
+SELECT * FROM BOOKING;

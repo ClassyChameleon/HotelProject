@@ -5,17 +5,20 @@ import java.util.Stack;
 
 public class Room {
 	private double RoomID;
-	private String Hotel,Roomtype;
+	private String Hotel,Roomtype, Location;
 	private Stack<LocalDate> BookingEntry, BookingExit;
 	
 	//Class constructor.
-	public Room(double id, String hotel, String roomType) {
+	public Room(double id, String hotel, String roomType, String location) {
 		RoomID = id;
 		Hotel = hotel;
 		Roomtype = roomType;
+		Location = location;
+		BookingEntry = new Stack<>();
+		BookingExit = new Stack<>();
 	}
 	
-	//TODO: check if this is unnecessary, remove it if so.
+	
 	public double getRoomID() {
 		return RoomID;
 	}
@@ -28,8 +31,15 @@ public class Room {
 		return Roomtype;
 	}
 	
+	public String getLocation() {
+		return Location;
+	}
+	
 	public boolean isBookingEmpty() {
 		//Assuming we've kept both queues equal in size
+		if (BookingEntry == null) {
+			return true;
+		}
 		return BookingEntry.isEmpty();
 	}
 	
@@ -44,9 +54,9 @@ public class Room {
 	}
 
 	public void addBooking(LocalDate entry, LocalDate exit) {
-		if (!(entry == null ^ exit == null) && entry.isBefore(exit)) {
-			BookingEntry.push(entry);
-			BookingExit.push(exit);
+		if (entry != null && exit != null && entry.compareTo(exit) < 0) {
+			this.BookingEntry.push(entry);
+			this.BookingExit.push(exit);
 		}
 	}
 	

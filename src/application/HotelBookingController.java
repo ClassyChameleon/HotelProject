@@ -90,11 +90,17 @@ public class HotelBookingController {
 	
 	public void SearchButtonPressed() throws ClassNotFoundException {
 		ResultAnchorPane.getChildren().clear();
+		String entryDateInfo = "";
+		if (EntryDatePicker.getValue() != null) 
+			entryDateInfo = EntryDatePicker.getValue().toString();
+		String exitDateInfo = "";
+		if (ExitDatePicker.getValue() != null) 
+			exitDateInfo = EntryDatePicker.getValue().toString();
 		Queue<Room> roomList = database.FindRoomsBasedOnSearch(
 				HotelChoiceBox.getValue(),
 				RoomTypeChoiceBox.getValue(),
-				EntryDatePicker.getValue().toString(),
-				ExitDatePicker.getValue().toString()
+				entryDateInfo,
+				exitDateInfo
 		);
 		VBox vbox = new VBox();
 		while (!roomList.isEmpty()) {
@@ -104,24 +110,28 @@ public class HotelBookingController {
 			resultGridPane.setPadding(resultPadding);
 			Label hotelName = new Label(roomItem.getHotel() + " ");
 			resultGridPane.add(hotelName, 0, 0);
+			Label hotelLocation = new Label(roomItem.getLocation());
+			resultGridPane.add(hotelLocation, 1, 0);
+			Label roomType = new Label(roomItem.getRoomType());
+			resultGridPane.add(roomType, 0, 1);
 			Label roomID = new Label("Room number: " + roomItem.getRoomID() + " ");
-			resultGridPane.add(roomID, 0, 1);
+			resultGridPane.add(roomID, 0, 2);
 			Label entryDate = new Label("Check-in Date");
-			resultGridPane.add(entryDate, 1, 0);
+			resultGridPane.add(entryDate, 1, 1);
 			DatePicker checkInDatePicker = new DatePicker();
-			ConfigureDatePicker(checkInDatePicker);
+			ConfigureEntryDatePicker(checkInDatePicker);
 			Label exitDate = new Label("Check-out Date");
-			resultGridPane.add(exitDate, 2, 0);
+			resultGridPane.add(exitDate, 2, 1);
 			DatePicker checkOutDatePicker = new DatePicker();
-			ConfigureDatePicker(checkInDatePicker);
+			ConfigureExitDatePicker(checkOutDatePicker);
 			disableBookedDatesOfRoom(checkInDatePicker, checkOutDatePicker, roomItem);
-			resultGridPane.add(checkInDatePicker, 1, 1);
-			resultGridPane.add(checkOutDatePicker, 2, 1);
+			resultGridPane.add(checkInDatePicker, 1, 2);
+			resultGridPane.add(checkOutDatePicker, 2, 2);
 			Button BookingButton = new Button("Book");
-			resultGridPane.add(BookingButton, 3, 1);
+			resultGridPane.add(BookingButton, 3, 2);
 			vbox.getChildren().add(resultGridPane);
 		}
-		for (int i = 0; i < 6; i++) {
+		/*for (int i = 0; i < 6; i++) {
 			GridPane ResultGridPane = new GridPane();
 			Insets ResultPadding = new Insets(2);
 			ResultGridPane.setPadding(ResultPadding);
@@ -141,7 +151,7 @@ public class HotelBookingController {
 			Button BookingButton = new Button("Book");
 			ResultGridPane.add(BookingButton, 3, 1);
 			vbox.getChildren().add(ResultGridPane);
-		}
+		}*/
 		ResultAnchorPane.getChildren().add(vbox);
 	}
 	
@@ -166,7 +176,7 @@ public class HotelBookingController {
 		            });
 	}
 	
-	private void ConfigureDatePicker(DatePicker datePicker) {
+	private void ConfigureEntryDatePicker(DatePicker datePicker) {
 		datePicker.getEditor().setDisable(true);
 		datePicker.getEditor().setOpacity(1);
 		datePicker.setDayCellFactory(param -> new DateCell() {
@@ -174,6 +184,18 @@ public class HotelBookingController {
 		                public void updateItem(LocalDate date, boolean empty) {
 		                    super.updateItem(date, empty);
 		                    setDisable(empty || date.compareTo(LocalDate.now()) < 0 );
+		                }
+		            });
+	}
+	
+	private void ConfigureExitDatePicker(DatePicker datePicker) {
+		datePicker.getEditor().setDisable(true);
+		datePicker.getEditor().setOpacity(1);
+		datePicker.setDayCellFactory(param -> new DateCell() {
+		                @Override
+		                public void updateItem(LocalDate date, boolean empty) {
+		                    super.updateItem(date, empty);
+		                    setDisable(empty || date.compareTo(LocalDate.now()) <= 0 );
 		                }
 		            });
 	}

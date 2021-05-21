@@ -1,6 +1,7 @@
 package application;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -128,25 +129,33 @@ public class DBManager {
 		try
 		{
 			conn = DriverManager.getConnection("jdbc:sqlite:hotel.db");
-			
+
+			System.out.println(hotel);
+			System.out.println(roomType);
+			System.out.println(hotel.equals("Select a hotel"));
+			System.out.println(roomType.equals("Select a room type"));
+			System.out.println(entrydate.isBlank());
+			System.out.println(exitdate.isBlank());
+			System.out.println(!(hotel.equals("Select a hotel") && roomType.equals("Select a room type") && entrydate.isBlank() && exitdate.isBlank()));
 			String query = "select * from room";
-			if (!(hotel.isBlank() && roomType.isBlank() && entrydate.isBlank() && exitdate.isBlank())) {
-				query.concat(" where");
-				if (!hotel.isBlank()) query.concat(" hotel_name = " + hotel + " AND");
-				if (!roomType.isBlank()) query.concat(" room_type = " + roomType + " AND");
-				if (!entrydate.isBlank()) query.concat(" NOT EXISTS ("
+			if (!(hotel.equals("Select a hotel") && roomType.equals("Select a room type") && entrydate.isBlank() && exitdate.isBlank())) {
+				query = query.concat(" where");
+				System.out.println(query);
+				if (!hotel.equals("Select a hotel")) query = query.concat(" hotel_name = '" + hotel + "' AND");
+				if (!roomType.equals("Select a room type")) query = query.concat(" room_type = '" + roomType + "' AND");
+				if (!entrydate.isBlank()) query = query.concat(" NOT EXISTS ("
 						+ "SELECT * FROM booking WHERE"
 						+ " booking.Room_ID = room.Room_ID AND"
-						+ " Entry_Date <= " + entrydate + " AND"
-						+ " " + entrydate + " < Exit_Date) AND");
-				if (!exitdate.isBlank()) query.concat(" NOT EXISTS ("
+						+ " Entry_Date <= '" + entrydate + "' AND"
+						+ " '" + entrydate + "' < Exit_Date) AND");
+				if (!exitdate.isBlank()) query = query.concat(" NOT EXISTS ("
 						+ "SELECT * FROM booking WHERE"
 						+ " booking.Room_ID = room.Room_ID AND"
-						+ " Entry_Date < " + exitdate + " AND"
-						+ " " + exitdate + " <= Exit_Date) AND");
-				query.substring(0, query.length()-4);
+						+ " Entry_Date < '" + exitdate + "' AND"
+						+ " '" + exitdate + "' <= Exit_Date) AND");
+				query = query.substring(0, query.length()-4);
 			}
-			
+			System.out.println(query);
 			PreparedStatement roomSearchQuery = conn.prepareStatement(query);
 			ResultSet rs = roomSearchQuery.executeQuery();
 			while (rs.next())
@@ -154,12 +163,13 @@ public class DBManager {
 				Room roomItem = new Room(
 						rs.getDouble("Room_ID"),
 						rs.getString("Hotel_Name"),
-						rs.getString("Room_Type"));
+						rs.getString("Room_Type"),
+						rs.getString("Hotel_Location"));
 				query = "SELECT * FROM booking WHERE Room_ID = " + roomItem.getRoomID();
 				PreparedStatement bookingSearchQuery = conn.prepareStatement(query);
 				ResultSet bookingResults = bookingSearchQuery.executeQuery();
 				while (bookingResults.next()) {
-					roomItem.addBooking(bookingResults.getDate("Entry_Date").toLocalDate(), bookingResults.getDate("Exit_Date").toLocalDate());
+					roomItem.addBooking(LocalDate.parse(bookingResults.getString("Entry_Date")), LocalDate.parse(bookingResults.getString("Exit_Date")));
 				}
 				bookingResults.close();
 				RoomList.add(roomItem);
