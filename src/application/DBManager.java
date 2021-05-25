@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 public class DBManager {
 	
 	//Returns the role of the given username/password according to the database hotel.db
-	//Check hotel.db for what the role integer represents.
+	//An explanation is given on what the role Integer represents in hotelsqlite.sql.
 	public int CheckRoleOfUser(String username, String password) throws ClassNotFoundException {
 		Class.forName("org.sqlite.JDBC");
 		Connection conn = null;

@@ -1,2 +1,5 @@
+:: Note that you'll need sqlite3 set up correctly to do this.
+:: Tutorial for this is at https://www.youtube.com/watch?v=XA3w8tQnYCA
+:: It might be easier to redownload hotel.db from github.
 del hotel.db
 sqlite3 hotel.db < hotelsqlite.sql
